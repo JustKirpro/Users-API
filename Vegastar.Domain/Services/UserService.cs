@@ -6,13 +6,18 @@ namespace Vegastar.Domain.Services;
 
 public class UserService : IUserService
 {
+    private readonly IPasswordHasherService _passwordHasherService;
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository) => _userRepository = userRepository;
-
+    public UserService(IPasswordHasherService passwordHasherService, IUserRepository userRepository)
+    {
+        _passwordHasherService = passwordHasherService;
+        _userRepository = userRepository;
+    }
+    
     public async Task<User> AddUserAsync(User user)
     {
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+        var hashedPassword = _passwordHasherService.HashPassword(user.Password);
         var userWithHashesPassword = user with
         {
             Password = hashedPassword

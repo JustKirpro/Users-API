@@ -23,7 +23,7 @@ public sealed class UsersContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasIndex(u => u.Login).IsUnique();
+        modelBuilder.Entity<User>().HasIndex(u => u.Login);
         
         SeedUserGroups(modelBuilder);
         SeedUserStates(modelBuilder);
@@ -31,7 +31,7 @@ public sealed class UsersContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    private void SeedUserGroups(ModelBuilder modelBuilder)
+    private static void SeedUserGroups(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserGroup>().HasData(new[]
         {
@@ -50,7 +50,7 @@ public sealed class UsersContext : DbContext
         });
     }
 
-    private void SeedUserStates(ModelBuilder modelBuilder)
+    private static void SeedUserStates(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserState>().HasData(new[]
         {
@@ -65,7 +65,7 @@ public sealed class UsersContext : DbContext
                 UserStateId = (int) UserStateCode.Blocked,
                 Code = UserStateCode.Blocked,
                 Description = "Blocked"
-            },
+            }
         });
     }
 }

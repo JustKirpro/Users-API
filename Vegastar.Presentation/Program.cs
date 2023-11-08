@@ -26,6 +26,7 @@ builder.Services
     });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -39,7 +40,7 @@ builder.Services.AddSwaggerGen(o =>
     o.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "User API",
+        Title = "Users API",
         Description = "ASP.NET 6 Web API for Vegastar test task"
     });
 });

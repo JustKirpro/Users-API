@@ -108,7 +108,9 @@ public class UserRepository : IUserRepository
 
     private async Task<bool> IsAdminCreated()
     {
-        var admin = await _usersContext.Users.SingleOrDefaultAsync(u => u.Group.Code == UserGroupCode.Admin);
+        var admin = await _usersContext.Users
+            .SingleOrDefaultAsync(u => u.Group.Code == UserGroupCode.Admin && u.State.Code == UserStateCode.Active);
+       
         return admin is not null;
     }
 }

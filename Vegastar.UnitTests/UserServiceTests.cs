@@ -3,7 +3,6 @@ using Moq;
 using Vegastar.Domain.Contracts;
 using Vegastar.Domain.Entities;
 using Vegastar.Domain.Exceptions;
-using Vegastar.Domain.Services;
 using Vegastar.TestingInfrastructure.Providers;
 
 namespace Vegastar.UnitTests;
@@ -22,7 +21,7 @@ public class UserServiceTests
             .Returns(Task.FromResult(expectedUser)!);
 
         var repository = repositoryMock.Object;
-        var service = new UserService(repository);
+        var service = UserServiceProvider.GetUserService(repository);
         
         // Act
         var actualUser = await service.GetUserByIdAsync(expectedUser.UserId); 
@@ -43,7 +42,7 @@ public class UserServiceTests
             .Returns(Task.FromResult<User>(null!)!);
 
         var repository = repositoryMock.Object;
-        var service = new UserService(repository);
+        var service = UserServiceProvider.GetUserService(repository);
         
         // Act
         var act = async () => await service.GetUserByIdAsync(userId);
@@ -65,7 +64,7 @@ public class UserServiceTests
             .Returns(Task.FromResult(expectedUser)!);
 
         var repository = repositoryMock.Object;
-        var service = new UserService(repository);
+        var service = UserServiceProvider.GetUserService(repository);
         
         // Act
         var act = async () => await service.RemoveUserById(expectedUser.UserId); 
@@ -86,7 +85,7 @@ public class UserServiceTests
             .Returns(Task.FromResult<User>(null!)!);
 
         var repository = repositoryMock.Object;
-        var service = new UserService(repository);
+        var service = UserServiceProvider.GetUserService(repository);
         
         // Act
         var act = async () => await service.RemoveUserById(userId);
