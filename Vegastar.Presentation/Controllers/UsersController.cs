@@ -20,9 +20,9 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<CreateUserResponseModel>> CreateUser(CreateUserRequestModel requestModel)
     {
         var userToAdd = _mapper.Map<User>(requestModel);

@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Vegastar.DataAccess;
 using Vegastar.DataAccess.Options;
 using Vegastar.DataAccess.Repositories;
@@ -9,19 +10,19 @@ using Vegastar.Presentation.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<UsersContext>(options =>
+builder.Services.AddDbContext<UsersContext>(o =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnectionString"));
+    o.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnectionString"));
 });
 
 builder.Services
-    .AddControllers(options =>
+    .AddControllers(o =>
     {
-        options.Filters.Add<ExceptionFilter>();
+        o.Filters.Add<ExceptionFilter>();
     })
-    .AddJsonOptions(options =>
+    .AddJsonOptions(o =>
     {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -33,7 +34,15 @@ builder.Services.AddAutoMapper(typeof(UsersContext).Assembly);
 builder.Services.Configure<RepositoryOptions>(builder.Configuration.GetSection(nameof(RepositoryOptions)));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(o =>
+{
+    o.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "User API",
+        Description = "ASP.NET 6 Web API for Vegastar test task"
+    });
+});
 
 var app = builder.Build();
 
