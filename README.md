@@ -24,7 +24,7 @@ A PostgreSQL database was chosen. To start the Docker container with the databas
 
 * Entity Framework Core is used to work with the database.
 * The BCrypt.Net-Next library is used to hash user passwords.
-* AutoMapper is used For mapping between models of different layers of the application
+* AutoMapper is used for mapping between models of different layers of the application
 
 Unit tests were written for the service (Domain Layer) and repository (Data Access Layer). The following tools were used to write tests:
 * xUnit - chosen testing framework.
